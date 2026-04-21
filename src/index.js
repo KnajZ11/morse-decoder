@@ -39,6 +39,59 @@ const MORSE_TABLE = {
 };
 */
 
-module.exports = function decode(/* expr */) {
-  throw new Error('Not implemented');
+const MORSE_TABLE = {
+  '.-': 'a',
+  '-...': 'b',
+  '-.-.': 'c',
+  '-..': 'd',
+  '.': 'e',
+  '..-.': 'f',
+  '--.': 'g',
+  '....': 'h',
+  '..': 'i',
+  '.---': 'j',
+  '-.-': 'k',
+  '.-..': 'l',
+  '--': 'm',
+  '-.': 'n',
+  '---': 'o',
+  '.--.': 'p',
+  '--.-': 'q',
+  '.-.': 'r',
+  '...': 's',
+  '-': 't',
+  '..-': 'u',
+  '...-': 'v',
+  '.--': 'w',
+  '-..-': 'x',
+  '-.--': 'y',
+  '--..': 'z',
+  '.----': '1',
+  '..---': '2',
+  '...--': '3',
+  '....-': '4',
+  '.....': '5',
+  '-....': '6',
+  '--...': '7',
+  '---..': '8',
+  '----.': '9',
+  '-----': '0',
+};
+
+module.exports = function decode(expr) {
+  const chunks = expr.match(/.{10}/g);
+
+  const result = chunks.map((chunk) => {
+    if (chunk === '**********') return ' ';
+
+    const morseCode = chunk
+      .replace(/^0+/, '')
+      .match(/.{2}/g)
+      .map((pair) => (pair === '10' ? '.' : '-'))
+      .join('');
+
+    return MORSE_TABLE[morseCode];
+  });
+
+  return result.join('');
 };
